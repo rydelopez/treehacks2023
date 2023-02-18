@@ -65,3 +65,41 @@ export async function sendToken(address, name, SerialNum, dest) {
 	const tokenClient = new TokenClient(getAptosClient());
 	tokenClient.offerToken(address, dest, admin_address, SerialNum, name, 1);
 }
+
+const url = 'https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql'
+const query = `
+query MyQuery {
+  current_token_ownerships(where: {
+    owner_address: {
+      _eq: "0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
+    },
+    amount: {
+      _gt: 0
+    }
+  }) {
+    name
+    amount
+    collection_name
+	current_token_data {
+		metadata_uri
+		description
+		name
+	  }
+  }
+}
+`
+
+// https://cloud.hasura.io/public/graphiql?endpoint=https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql
+export async function getTokenData(address) {
+	fetch(url, {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		  'Accept': 'application/json',
+		},
+		body: JSON.stringify({
+		  query
+		})
+	  }).then(r => r.json()).then(data => { return data })
+}
+
