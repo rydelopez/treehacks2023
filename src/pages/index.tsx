@@ -2,6 +2,10 @@ import Head from "next/head";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { createToken, sendToken } from "./components/utils";
+import { useEffect, useState } from "react";
+import { useAuth } from "./lib/AuthContext";
+import { useRouter } from "next/router";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
 	function handleCreateToken(e) {
@@ -48,42 +52,49 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<WalletSelector />
-				<h1>Create Token</h1>
-				<form method="post" onSubmit={handleCreateToken}>
-					<label>
-						Address: <input name="address" />
-					</label>
-					<label>
-						Name: <input name="name" />
-					</label>
-					<label>
-						SerialNum: <input name="serialNum" />
-					</label>
-					<label>
-						Desc: <input name="desc" />
-					</label>
-					<label>
-						Img: <input name="img" />
-					</label>
-					<button type="submit">Submit form</button>
-				</form>
-				<h1>Send Token</h1>
-				<form method="post" onSubmit={handleSendToken}>
-					<label>
-						Address: <input name="address" />
-					</label>
-					<label>
-						Name: <input name="name" />
-					</label>
-					<label>
-						SerialNum: <input name="serialNum" />
-					</label>
-					<label>
-						Dest: <input name="dest" />
-					</label>
-					<button type="submit">Submit form</button>
-				</form>
+				<div className="flex flex-row gap-6 container h-screen">
+					<div className="flex">
+						<Navbar />
+					</div>
+					<div>
+						<WalletSelector />
+						<h1>Create Token</h1>
+						<form method="post" onSubmit={handleCreateToken}>
+							<label>
+								Address: <input name="address" />
+							</label>
+							<label>
+								Name: <input name="name" />
+							</label>
+							<label>
+								SerialNum: <input name="serialNum" />
+							</label>
+							<label>
+								Desc: <input name="desc" />
+							</label>
+							<label>
+								Img: <input name="img" />
+							</label>
+							<button type="submit">Submit form</button>
+						</form>
+						<h1>Send Token</h1>
+						<form method="post" onSubmit={handleSendToken}>
+							<label>
+								Address: <input name="address" />
+							</label>
+							<label>
+								Name: <input name="name" />
+							</label>
+							<label>
+								SerialNum: <input name="serialNum" />
+							</label>
+							<label>
+								Dest: <input name="dest" />
+							</label>
+							<button type="submit">Submit form</button>
+						</form>
+					</div>
+				</div>
 			</main>
 		</>
 	);
