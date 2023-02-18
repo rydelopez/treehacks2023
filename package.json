@@ -13,6 +13,7 @@
 		"@aptos-labs/wallet-adapter-react": "^0.2.4",
 		"@manahippo/aptos-wallet-adapter": "^1.0.10",
 		"@next/font": "13.1.6",
+		"@tailwindcss/forms": "^0.5.3",
 		"@types/node": "18.14.0",
 		"@types/react": "18.0.28",
 		"@types/react-dom": "18.0.11",
