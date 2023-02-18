@@ -1,0 +1,14 @@
+---
+profiles:
+  default:
+    private_key: "0x61b1dc3cf47d8be3384e98fbe327cb74a6babd3effea940f374700e07b09627e"
+    public_key: "0xe57f9e39a03ae30af31351a8825bc12b0b51541d115f4aedc28613e3d6ac727b"
+    account: 88c2a63315d8e3aa212333f03a3bb02f23ee0b082eed22061ad453eb803bd605
+    rest_url: "https://fullnode.devnet.aptoslabs.com"
+    faucet_url: "https://faucet.devnet.aptoslabs.com"
+  my-first-nft:
+    private_key: "0x61b1dc3cf47d8be3384e98fbe327cb74a6babd3effea940f374700e07b09627e"
+    public_key: "0xe57f9e39a03ae30af31351a8825bc12b0b51541d115f4aedc28613e3d6ac727b"
+    account: 88c2a63315d8e3aa212333f03a3bb02f23ee0b082eed22061ad453eb803bd605
+    rest_url: "https://fullnode.devnet.aptoslabs.com"
+    faucet_url: "https://faucet.devnet.aptoslabs.com"
