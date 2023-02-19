@@ -6,25 +6,33 @@ import { AuthContextProvider } from "./lib/AuthContext";
 import { useRouter } from "next/router";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect, useState } from "react";
+import { getTokenData } from "./components/utils";
 
 declare global {
-  interface Window { MyNamespace: any; }
+	interface Window {
+		MyNamespace: any;
+	}
 }
 
 export default function App({ Component, pageProps }: AppProps) {
 	const wallets = [new PetraWallet()];
 	const noAuthRequired = ["/login", "/signup"];
 	const router = useRouter();
-  const [account ,setAccount ] = useState<any>(undefined);
+	const [account, setAccount] = useState<any>(undefined);
 
-  console.log(account);
+	console.log(account);
 
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      // @ts-ignore
-      window.aptos.account().then((data) => setAccount(data))
-    }
-  }, [])
+	useEffect(() => {
+		if (typeof window !== undefined) {
+			// @ts-ignore
+			window.aptos.account().then((data) => setAccount(data));
+		}
+	}, []);
+
+	useEffect(() => {
+		const data = getTokenData(account.address);
+		console.log("hi" + data);
+	}, [account]);
 
 	return (
 		<AuthContextProvider>

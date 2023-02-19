@@ -15,7 +15,7 @@ module.exports = {
 			colors: {
 				mainBlack: "#3A3A5B",
 				mainBlue: "#539CFF",
-				mainPeach: "#EEA47FFF",
+				mainPeach: "#EEA47F",
 				darkBlue: "#427DCC",
 			},
 		},

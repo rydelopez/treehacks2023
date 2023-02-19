@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import { usernamesRef, db } from "./lib/firebase";
 import debounce from "lodash.debounce";
+import { nanoid } from "nanoid";
 
 export default function Signup() {
 	const { user, signup } = useAuth();
@@ -58,13 +59,13 @@ export default function Signup() {
 	const handleSignup = async (e: any) => {
 		e.preventDefault();
 		try {
-			console.log(user);
-			batch.set(doc(db, "users", user.uid), {
+			const uid = nanoid();
+			batch.set(doc(db, "users", uid), {
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
-			batch.set(doc(db, "usernames", formValue), { uid: user.uid });
+			batch.set(doc(db, "usernames", formValue), { uid });
 			await batch.commit();
 			await signup(data.email, data.password);
 			router.push("/");
