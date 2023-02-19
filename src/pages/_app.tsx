@@ -19,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	const noAuthRequired = ["/login", "/signup"];
 	const router = useRouter();
 	const [account, setAccount] = useState<any>(undefined);
+	const [tokenData, setTokenData] = useState<any>(undefined);
 
 	console.log(account);
 
@@ -30,8 +31,10 @@ export default function App({ Component, pageProps }: AppProps) {
 	}, []);
 
 	useEffect(() => {
-		const data = getTokenData(account.address);
-		console.log("hi" + data);
+		const data = getTokenData(account?.address);
+		setTokenData(data);
+		console.log("hi");
+		console.log(tokenData);
 	}, [account]);
 
 	return (
