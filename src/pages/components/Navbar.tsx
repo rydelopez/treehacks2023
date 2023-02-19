@@ -10,18 +10,13 @@ import { HomeIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
 const logo = require("../../../public/APTOSCERT.png");
 
 const navigation = [
-	{ name: "Home", icon: HomeIcon, href: "/", current: true },
+	{ name: "Home", icon: HomeIcon, href: "/" },
 	{
 		name: "Receive",
 		icon: CloudArrowDownIcon,
 		href: "/receive",
-		current: false,
 	},
 ];
-
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
 
 export default function Navbar() {
 	const { user, logout } = useAuth();
@@ -54,28 +49,11 @@ export default function Navbar() {
 						<a
 							key={item.name}
 							href={item.href}
-							className={classNames(
-								item.current
-									? "bg-gray-100 text-gray-900 hover:text-gray-900 hover:bg-gray-100"
-									: "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
-								"group flex items-center px-2 py-2 text-sm font-normal rounded-md"
-							)}
+							className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 group flex items-center px-2 py-2 text-sm font-normal rounded-md"
 						>
 							<item.icon
-								className={classNames(
-									item.current
-										? "text-gray-500"
-										: "text-gray-400 group-hover:text-gray-500",
-									"mr-3 flex-shrink-0 h-6 w-6"
-								)}
+								className="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
 								aria-hidden="true"
-								onClick={() => {
-									navigation.forEach((opt) => {
-										if (opt.name !== item.name) {
-											opt.current = false;
-										}
-									});
-								}}
 							/>
 							<span className="flex-1">{item.name}</span>
 						</a>

@@ -1,5 +1,7 @@
 import { AptosClient, TokenClient, AptosAccount, HexString } from "aptos";
 import { Wallet } from "@aptos-labs/wallet-adapter-core";
+import { AddressContext } from "../lib/AddressContext";
+// import { useContext } from "react";
 
 /**
  * Reference:
@@ -85,43 +87,44 @@ export async function sendToken(address, name, SerialNum, dest) {
 	tokenClient.offerToken(address, dest, admin_address, SerialNum, name, 1);
 }
 
-const url = "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql";
-const query = `
-query MyQuery {
-  current_token_ownerships(where: {
-    owner_address: {
-      _eq: "0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
-    },
-    amount: {
-      _gt: 0
-    }
-  }) {
-    name
-    amount
-    collection_name
-	current_token_data {
-		metadata_uri
-		description
-		name
-	  }
-  }
-}
-`;
-
 // https://cloud.hasura.io/public/graphiql?endpoint=https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql
-export async function getTokenData(address) {
-	fetch(url, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Accept: "application/json",
-		},
-		body: JSON.stringify({
-			query,
-		}),
-	})
-		.then((r) => r.json())
-		.then((data) => {
-			return data;
-		});
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+	const result = await fetch(
+		"https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql",
+		{
+			method: "POST",
+			body: JSON.stringify({
+				query: operationsDoc,
+				variables: variables,
+				operationName: operationName,
+			}),
+		}
+	);
+	return await result.json();
+}
+const operationsDoc = `
+    query MyQuery($address: String!) {
+      current_token_ownerships(where: {owner_address: {_eq: $address}}) {
+        name
+        amount
+        collection_name
+        current_token_data {
+          metadata_uri
+          description
+          name
+        }
+      }
+    }
+  `;
+function fetchMyQuery(address) {
+	return fetchGraphQL(operationsDoc, "MyQuery", { address: address });
+}
+export async function startFetchMyQuery(address) {
+	const { errors, data } = await fetchMyQuery(address);
+	if (errors) {
+		// handle those errors like a pro
+		console.error(errors);
+	}
+	// do something great with this precious data
+	console.log(data);
 }
