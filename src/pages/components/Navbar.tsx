@@ -7,6 +7,8 @@ import Image from "next/image";
 
 import { HomeIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
 
+import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+
 const logo = require("../../../public/APTOSCERT.png");
 
 const navigation = [
@@ -58,6 +60,9 @@ export default function Navbar() {
 							<span className="flex-1">{item.name}</span>
 						</a>
 					))}
+					<div className="px-2 py-2">
+						<WalletSelector />
+					</div>
 					<a
 						className="group flex items-center px-2 py-2 text-sm font-normal text-mainBlack hover:text-mainBlue cursor-pointer"
 						onClick={() => {

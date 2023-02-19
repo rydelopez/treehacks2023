@@ -2,12 +2,18 @@ import Head from "next/head";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { createToken, sendToken } from "./components/utils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "./lib/AuthContext";
 import { useRouter } from "next/router";
 import Navbar from "./components/Navbar";
+import { TokenContext } from "./lib/TokenContext";
 
 export default function Home() {
+	const { tokenData } = useContext(TokenContext);
+	useEffect(() => {
+		console.log(tokenData);
+	}, [tokenData]);
+
 	function handleCreateToken(e) {
 		// Prevent the browser from reloading the page
 		e.preventDefault();
@@ -52,13 +58,11 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<div className="flex flex-row gap-6 container h-screen">
+				<div className="flex flex-row gap-6 container h-screen font-poppins">
 					<div className="flex">
 						<Navbar />
 					</div>
-					<div>
-						<WalletSelector />
-						<h1>Create Token</h1>
+					{/* <h1>Create Token</h1>
 						<form method="post" onSubmit={handleCreateToken}>
 							<label>
 								Address: <input name="address" />
@@ -92,7 +96,66 @@ export default function Home() {
 								Dest: <input name="dest" />
 							</label>
 							<button type="submit">Submit form</button>
-						</form>
+						</form> */}
+					<div className="bg-white flex flex-1">
+						<div className="mx-auto max-w-2xl py-12 px-4 sm:px-6 lg:px-0">
+							<h1 className="text-center text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+								Currently Owned NFTs
+							</h1>
+
+							<form className="mt-12">
+								<section aria-labelledby="cart-heading">
+									<h2 id="cart-heading" className="sr-only">
+										Items in your shopping cart
+									</h2>
+
+									<ul
+										role="list"
+										className="divide-y divide-gray-200 border-t border-b border-gray-200"
+									>
+										{tokenData &&
+											tokenData.map((nft: any) => (
+												<li className="flex py-6">
+													<div className="flex-shrink-0">
+														<img
+															src={nft.current_token_data.metadata_uri}
+															className="h-24 w-24 rounded-md object-cover object-center sm:h-32 sm:w-32"
+														/>
+													</div>
+
+													<div className="ml-4 flex flex-1 flex-col sm:ml-6">
+														<div>
+															<div className="flex justify-between">
+																<h4 className="text-sm font-medium text-gray-700 hover:text-gray-800">
+																	{nft.current_token_data.name}
+																</h4>
+																{/* <p className="ml-4 text-sm font-medium text-gray-900">
+																	{nft.collection_name}
+																</p> */}
+															</div>
+															<p className="mt-1 text-sm text-gray-500">
+																Serial No: {nft.collection_name}
+															</p>
+															{/* <p className="mt-1 text-sm text-gray-500">
+															{product.size}
+														</p> */}
+														</div>
+
+														<div className="mt-4 flex flex-1 items-end justify-between">
+															<button
+																type="button"
+																className="text-sm font-medium text-mainBlue hover:text-darkBlue"
+															>
+																<span>Send</span>
+															</button>
+														</div>
+													</div>
+												</li>
+											))}
+									</ul>
+								</section>
+							</form>
+						</div>
 					</div>
 				</div>
 			</main>

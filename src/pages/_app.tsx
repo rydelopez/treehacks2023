@@ -6,7 +6,7 @@ import { AuthContextProvider } from "./lib/AuthContext";
 import { useRouter } from "next/router";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect, useState } from "react";
-import { AddressContext } from "./lib/AddressContext";
+import { TokenContext } from "./lib/TokenContext";
 import { startFetchMyQuery } from "./components/utils";
 
 declare global {
@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	const noAuthRequired = ["/login", "/signup"];
 	const router = useRouter();
 	const [account, setAccount] = useState<any>(undefined);
-	const [tokenData, setTokenData] = useState<any>(undefined);
+	const [tokenData, setTokenData] = useState<any>([]);
 
 	useEffect(() => {
 		if (typeof window !== undefined) {
@@ -30,14 +30,15 @@ export default function App({ Component, pageProps }: AppProps) {
 	}, []);
 
 	useEffect(() => {
-		const data = startFetchMyQuery(account?.address);
-		setTokenData(data);
-		console.log("tokendata");
-		console.log(tokenData);
+		const data = startFetchMyQuery(account?.address).then(
+			(obj) => (console.log(obj), setTokenData(obj?.current_token_ownerships))
+		);
+		// console.log("tokendata");
+		// console.log(tokenData);
 	}, [account]);
 
 	return (
-		<AddressContext.Provider value={{ account }}>
+		<TokenContext.Provider value={{ tokenData }}>
 			<AuthContextProvider>
 				<AptosWalletAdapterProvider autoConnect plugins={wallets}>
 					{noAuthRequired.includes(router.pathname) ? (
@@ -49,6 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
 					)}
 				</AptosWalletAdapterProvider>
 			</AuthContextProvider>
-		</AddressContext.Provider>
+		</TokenContext.Provider>
 	);
 }
