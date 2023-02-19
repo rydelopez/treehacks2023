@@ -9,13 +9,22 @@ import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 export default function Create() {
 	const router = useRouter();
 	const { nft } = router.query;
-	const { tokenData } = useContext(TokenContext);
+	const { account, tokenData } = useContext(TokenContext);
 	const [name, setName] = useState("");
 	const [serialNum, setSerialNum] = useState("");
 	const [image, setImage] = useState("");
 	const [pk, setPk] = useState("");
 	const [description, setDescription] = useState("");
 	const [show, setShow] = useState(false);
+
+	useEffect(() => {
+		if (
+			account?.address !==
+			"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
+		) {
+			router.push("/");
+		}
+	}, []);
 
 	useEffect(() => {
 		tokenData &&
