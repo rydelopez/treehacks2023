@@ -38,24 +38,15 @@ export async function createToken(address, name, SerialNum, description, img) {
 	await aptosClient.waitForTransaction(
 		await tokenClient.createCollection(adminAccount, SerialNum, description, img, 1), {checkSuccess: true},
 	);
-	console.log(
-		"collection:" + tokenClient.getCollectionData(address, SerialNum)
-	);
-
-	const hash = await tokenClient.createToken(adminAccount, SerialNum, name, description, 1, img, 1);
+	
 	await aptosClient.waitForTransaction(
-		hash, {checkSuccess: true},
-	);
-	console.log(
-		"minting hash: " , hash
+		await tokenClient.createToken(adminAccount, SerialNum, name, description, 1, img, 1), {checkSuccess: true},
 	);
 
-	const offerHash = await tokenClient.offerToken(adminAccount, address, admin_address, SerialNum, name, 1);
 	await aptosClient.waitForTransaction(
-	offerHash, {checkSuccess: true},
+		await tokenClient.offerToken(adminAccount, address, admin_address, SerialNum, name, 1), {checkSuccess: true},
 	);
 
-	console.log('offerHash ', offerHash)
 	const collectionData = await tokenClient.getCollectionData(adminAccount.address(), SerialNum);
 	console.log(`new collection: ${JSON.stringify(collectionData, null, 4)}`); 
 	
