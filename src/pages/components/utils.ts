@@ -88,43 +88,60 @@ export async function sendToken(address, name, SerialNum, dest) {
 }
 
 // https://cloud.hasura.io/public/graphiql?endpoint=https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql
+/*
+This is an example snippet - you should consider tailoring it
+to your service.
+*/
+
 async function fetchGraphQL(operationsDoc, operationName, variables) {
 	const result = await fetch(
-		"https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql",
-		{
-			method: "POST",
-			body: JSON.stringify({
-				query: operationsDoc,
-				variables: variables,
-				operationName: operationName,
-			}),
-		}
+	  "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql",
+	  {
+		method: "POST",
+		body: JSON.stringify({
+		  query: operationsDoc,
+		  variables: variables,
+		  operationName: operationName
+		})
+	  }
 	);
+  
 	return await result.json();
-}
-const operationsDoc = `
-    query MyQuery($address: String!) {
-      current_token_ownerships(where: {owner_address: {_eq: $address}}) {
-        name
-        amount
-        collection_name
-        current_token_data {
-          metadata_uri
-          description
-          name
-        }
-      }
-    }
-  `;
-function fetchMyQuery(address) {
-	return fetchGraphQL(operationsDoc, "MyQuery", { address: address });
-}
-export async function startFetchMyQuery(address) {
-	const { errors, data } = await fetchMyQuery(address);
-	if (errors) {
-		// handle those errors like a pro
-		console.error(errors);
+  }
+  
+  const operationsDoc = `
+	query MyQuery($address: String!) {
+	  current_token_ownerships(
+		where: {owner_address: {_eq: $address}, amount: {_gt: "0"}}
+	  ) {
+		name
+		amount
+		collection_name
+		current_token_data {
+		  metadata_uri
+		  description
+		  name
+		}
+	  }
 	}
+  `;
+  
+  function fetchMyQuery(address) {
+	return fetchGraphQL(
+	  operationsDoc,
+	  "MyQuery",
+	  {"address": address}
+	);
+  }
+  
+  export async function startFetchMyQuery(address) {
+	const { errors, data } = await fetchMyQuery(address);
+  
+	if (errors) {
+	  // handle those errors like a pro
+	  console.error(errors);
+	}
+  
 	// do something great with this precious data
 	console.log(data);
-}
+  }
