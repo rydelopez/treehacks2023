@@ -1,10 +1,5 @@
 import Head from "next/head";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
-import { createToken, sendToken } from "./components/utils";
 import { useContext, useEffect, useState } from "react";
-import { useAuth } from "./lib/AuthContext";
-import { useRouter } from "next/router";
 import Navbar from "./components/Navbar";
 import { TokenContext } from "./lib/TokenContext";
 
@@ -13,41 +8,6 @@ export default function Home() {
 	useEffect(() => {
 		console.log(tokenData);
 	}, [tokenData]);
-
-	function handleCreateToken(e) {
-		// Prevent the browser from reloading the page
-		e.preventDefault();
-
-		// Read the form data
-		const form = e.target;
-		const formData = new FormData(form);
-		const formJson = Object.fromEntries(formData.entries());
-		console.log(formJson);
-		createToken(
-			formJson.address,
-			formJson.name,
-			formJson.serialNum,
-			formJson.desc,
-			formJson.img
-		);
-	}
-
-	function handleSendToken(e) {
-		// Prevent the browser from reloading the page
-		e.preventDefault();
-
-		// Read the form data
-		const form = e.target;
-		const formData = new FormData(form);
-		const formJson = Object.fromEntries(formData.entries());
-		console.log(formJson);
-		sendToken(
-			formJson.address,
-			formJson.name,
-			formJson.serialNum,
-			formJson.dest
-		);
-	}
 
 	return (
 		<>
@@ -62,51 +22,16 @@ export default function Home() {
 					<div className="flex">
 						<Navbar />
 					</div>
-					{/* <h1>Create Token</h1>
-						<form method="post" onSubmit={handleCreateToken}>
-							<label>
-								Address: <input name="address" />
-							</label>
-							<label>
-								Name: <input name="name" />
-							</label>
-							<label>
-								SerialNum: <input name="serialNum" />
-							</label>
-							<label>
-								Desc: <input name="desc" />
-							</label>
-							<label>
-								Img: <input name="img" />
-							</label>
-							<button type="submit">Submit form</button>
-						</form>
-						<h1>Send Token</h1>
-						<form method="post" onSubmit={handleSendToken}>
-							<label>
-								Address: <input name="address" />
-							</label>
-							<label>
-								Name: <input name="name" />
-							</label>
-							<label>
-								SerialNum: <input name="serialNum" />
-							</label>
-							<label>
-								Dest: <input name="dest" />
-							</label>
-							<button type="submit">Submit form</button>
-						</form> */}
 					<div className="bg-white flex flex-1">
 						<div className="mx-auto max-w-2xl py-12 px-4 sm:px-6 lg:px-0">
 							<h1 className="text-center text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
 								Currently Owned NFTs
 							</h1>
 
-							<form className="mt-12">
+							<div className="mt-12">
 								<section aria-labelledby="cart-heading">
 									<h2 id="cart-heading" className="sr-only">
-										Items in your shopping cart
+										NFTs owned
 									</h2>
 
 									<ul
@@ -129,32 +54,28 @@ export default function Home() {
 																<h4 className="text-sm font-medium text-gray-700 hover:text-gray-800">
 																	{nft.current_token_data.name}
 																</h4>
-																{/* <p className="ml-4 text-sm font-medium text-gray-900">
-																	{nft.collection_name}
-																</p> */}
 															</div>
 															<p className="mt-1 text-sm text-gray-500">
 																Serial No: {nft.collection_name}
 															</p>
-															{/* <p className="mt-1 text-sm text-gray-500">
-															{product.size}
-														</p> */}
 														</div>
 
 														<div className="mt-4 flex flex-1 items-end justify-between">
-															<button
-																type="button"
-																className="text-sm font-medium text-mainBlue hover:text-darkBlue"
-															>
-																<span>Send</span>
-															</button>
+															<a href={nft.collection_name}>
+																<button
+																	type="button"
+																	className="text-sm font-medium text-mainBlue hover:text-darkBlue"
+																>
+																	<span>Send</span>
+																</button>
+															</a>
 														</div>
 													</div>
 												</li>
 											))}
 									</ul>
 								</section>
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>

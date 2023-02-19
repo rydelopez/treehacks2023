@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	}, [account]);
 
 	return (
-		<TokenContext.Provider value={{ tokenData }}>
+		<TokenContext.Provider value={{ account, tokenData }}>
 			<AuthContextProvider>
 				<AptosWalletAdapterProvider autoConnect plugins={wallets}>
 					{noAuthRequired.includes(router.pathname) ? (

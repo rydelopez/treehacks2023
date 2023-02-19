@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../lib/AuthContext";
 import { useRouter } from "next/router";
 import { usersRef } from "../lib/firebase";
 import { getDocs, query, where, limit } from "firebase/firestore";
 import Image from "next/image";
+import { TokenContext } from "../lib/TokenContext";
 
-import { HomeIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
+import {
+	HomeIcon,
+	CloudArrowDownIcon,
+	Square3Stack3DIcon,
+} from "@heroicons/react/24/outline";
 
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 
@@ -24,6 +29,7 @@ export default function Navbar() {
 	const { user, logout } = useAuth();
 	const router = useRouter();
 	const [name, setName] = useState("");
+	const { account } = useContext(TokenContext);
 
 	const getName = async () => {
 		const q = query(usersRef, where("email", "==", user.email), limit(1));
@@ -35,6 +41,16 @@ export default function Navbar() {
 		getName().then((name) => {
 			setName(name);
 		});
+		if (
+			account?.address ===
+			"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
+		) {
+			navigation[2] = {
+				name: "Create",
+				icon: Square3Stack3DIcon,
+				href: "/create",
+			};
+		}
 	}, []);
 
 	return (
