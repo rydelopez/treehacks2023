@@ -29,6 +29,7 @@ export default function Navbar() {
 	const { user, logout } = useAuth();
 	const router = useRouter();
 	const [name, setName] = useState("");
+	const [loading, setLoading] = useState(true);
 	const { account } = useContext(TokenContext);
 
 	const getName = async () => {
@@ -51,7 +52,12 @@ export default function Navbar() {
 				href: "/create",
 			};
 		}
+		setLoading(false);
 	}, []);
+
+	useEffect(() => {
+		console.log(loading);
+	}, [loading]);
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white font-poppins w-64">
@@ -63,19 +69,20 @@ export default function Navbar() {
 					className="mt-5 flex-1 space-y-1 bg-white px-2"
 					aria-label="Sidebar"
 				>
-					{navigation.map((item) => (
-						<a
-							key={item.name}
-							href={item.href}
-							className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 group flex items-center px-2 py-2 text-sm font-normal rounded-md"
-						>
-							<item.icon
-								className="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
-								aria-hidden="true"
-							/>
-							<span className="flex-1">{item.name}</span>
-						</a>
-					))}
+					{!loading &&
+						navigation.map((item) => (
+							<a
+								key={item.name}
+								href={item.href}
+								className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 group flex items-center px-2 py-2 text-sm font-normal rounded-md"
+							>
+								<item.icon
+									className="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6"
+									aria-hidden="true"
+								/>
+								<span className="flex-1">{item.name}</span>
+							</a>
+						))}
 					<div className="px-2 py-2">
 						<WalletSelector />
 					</div>

@@ -5,6 +5,7 @@ import { TokenContext } from "./lib/TokenContext";
 
 export default function Home() {
 	const { tokenData } = useContext(TokenContext);
+
 	useEffect(() => {
 		console.log(tokenData);
 	}, [tokenData]);
