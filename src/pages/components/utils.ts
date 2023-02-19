@@ -1,5 +1,4 @@
 import { AptosClient, TokenClient, AptosAccount, HexString } from "aptos";
-import { Wallet } from "@aptos-labs/wallet-adapter-core";
 
 /**
  * Reference:

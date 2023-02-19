@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useAuth } from "./lib/AuthContext";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 
 export default function Login() {
 	const router = useRouter();
@@ -24,11 +24,6 @@ export default function Login() {
 		<>
 			<div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-poppins">
 				<div className="sm:mx-auto sm:w-full sm:max-w-md">
-					{/* <img
-						className="mx-auto h-12 w-auto"
-						src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-						alt="Your Company"
-					/> */}
 					<h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
 						Sign in to your account
 					</h2>
@@ -103,7 +98,7 @@ export default function Login() {
 							</div>
 						</form>
 
-						<div className="mt-6">
+						{/* <div className="mt-6">
 							<div className="relative">
 								<div className="absolute inset-0 flex items-center">
 									<div className="w-full border-t border-gray-300" />
@@ -136,7 +131,7 @@ export default function Login() {
 									Sign in with Google
 								</button>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

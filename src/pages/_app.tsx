@@ -21,7 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 	const [account, setAccount] = useState<any>(undefined);
 	const [tokenData, setTokenData] = useState<any>([]);
-	const [reload, setReload] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (typeof window !== undefined) {
