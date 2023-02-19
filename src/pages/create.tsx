@@ -47,6 +47,24 @@ export default function Create() {
 					<section aria-labelledby="cart-heading">
 						<form method="post" onSubmit={handleCreateToken}>
 							<label className="-mt-px bg-white px-2 text-xs font-normal text-gray-900">
+								Name of item:
+								<input
+									name="dest"
+									className="block w-full border-1 p-2 text-gray-900 border-2 rounded-lg focus:ring-0 sm:text-sm"
+									value={name}
+									onChange={(e) => setName(e.target.value)}
+								/>
+							</label>
+							<label className="-mt-px bg-white px-2 text-xs font-normal text-gray-900">
+								Serial Number:
+								<input
+									name="dest"
+									className="block w-full border-1 p-2 text-gray-900 border-2 rounded-lg focus:ring-0 sm:text-sm"
+									value={serialNum}
+									onChange={(e) => setSerialNum(e.target.value)}
+								/>
+							</label>
+							<label className="-mt-px bg-white px-2 text-xs font-normal text-gray-900">
 								Your private key:
 								<input
 									name="dest"
