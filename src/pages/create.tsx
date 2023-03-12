@@ -17,14 +17,14 @@ export default function Create() {
 	const [description, setDescription] = useState("");
 	const [show, setShow] = useState(false);
 
-	useEffect(() => {
-		if (
-			account?.address !==
-			"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
-		) {
-			router.push("/");
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (
+	// 		account?.address !==
+	// 		"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
+	// 	) {
+	// 		router.push("/");
+	// 	}
+	// }, []);
 
 	useEffect(() => {
 		tokenData &&
