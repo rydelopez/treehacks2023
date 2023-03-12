@@ -23,13 +23,18 @@ const navigation = [
 		icon: CloudArrowDownIcon,
 		href: "/receive",
 	},
+	{
+		name: "Create",
+		icon: Square3Stack3DIcon,
+		href: "/create",
+	}
 ];
 
 export default function Navbar() {
 	const { user, logout } = useAuth();
 	const router = useRouter();
 	const [name, setName] = useState("");
-	const [loading, setLoading] = useState(true);
+	// const [loading, setLoading] = useState(true);
 	const { account } = useContext(TokenContext);
 
 	const getName = async () => {
@@ -42,22 +47,22 @@ export default function Navbar() {
 		getName().then((name) => {
 			setName(name);
 		});
-		if (
-			account?.address ===
-			"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
-		) {
-			navigation[2] = {
-				name: "Create",
-				icon: Square3Stack3DIcon,
-				href: "/create",
-			};
-		}
-		setLoading(false);
+		// if (
+		// 	account?.address ===
+		// 	"0x76c6703811ecfc91ca761600b782ae3cd1a9845c3ca940f14225a491d64213e7"
+		// ) {
+		// 	navigation[2] = {
+		// 		name: "Create",
+		// 		icon: Square3Stack3DIcon,
+		// 		href: "/create",
+		// 	};
+		// }
+		// setLoading(false);
 	}, []);
 
-	useEffect(() => {
-		console.log(loading);
-	}, [loading]);
+	// useEffect(() => {
+	// 	console.log(loading);
+	// }, [loading]);
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white font-poppins w-64">
@@ -69,8 +74,7 @@ export default function Navbar() {
 					className="mt-5 flex-1 space-y-1 bg-white px-2"
 					aria-label="Sidebar"
 				>
-					{!loading &&
-						navigation.map((item) => (
+					{navigation.map((item) => (
 							<a
 								key={item.name}
 								href={item.href}

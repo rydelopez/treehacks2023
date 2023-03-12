@@ -30,26 +30,37 @@ export async function getAccountResources(address) {
 	return accountResources;
 }
 
-export async function createToken(address, name, SerialNum, description, img) {
+export async function createCollection(address, name, SerialNum, description, img) {
 	const aptosClient = getAptosClient();
 	const tokenClient = new TokenClient(getAptosClient());
 	const adminAccount = new AptosAccount(admin_pk);
 	await aptosClient.waitForTransaction(
 		await tokenClient.createCollection(
 			adminAccount,
-			SerialNum,
+			name,
 			description,
 			img,
 			1
 		),
 		{ checkSuccess: true }
 	);
+	
+	const collectionData = await tokenClient.getCollectionData(
+		adminAccount.address(),
+		SerialNum
+	);
+	console.log(`new collection: ${JSON.stringify(collectionData, null, 4)}`);
 
+}
+export async function createToken(address, name, SerialNum, description, img) {
+	const aptosClient = getAptosClient();
+	const tokenClient = new TokenClient(getAptosClient());
+	const adminAccount = new AptosAccount(admin_pk);
 	await aptosClient.waitForTransaction(
 		await tokenClient.createToken(
 			adminAccount,
-			SerialNum,
 			name,
+			SerialNum,
 			description,
 			1,
 			img,
@@ -58,23 +69,40 @@ export async function createToken(address, name, SerialNum, description, img) {
 		{ checkSuccess: true }
 	);
 
-	await aptosClient.waitForTransaction(
-		await tokenClient.offerToken(
-			adminAccount,
-			address,
-			admin_address,
-			SerialNum,
-			name,
-			1
-		),
-		{ checkSuccess: true }
-	);
+	// await aptosClient.waitForTransaction(
+	// 	await tokenClient.offerToken(
+	// 		adminAccount,
+	// 		address,
+	// 		admin_address,
+	// 		SerialNum,
+	// 		name,
+	// 		1
+	// 	),
+	// 	{ checkSuccess: true }
+	// );
 
 	const collectionData = await tokenClient.getCollectionData(
 		adminAccount.address(),
 		SerialNum
 	);
 	console.log(`new collection: ${JSON.stringify(collectionData, null, 4)}`);
+}
+
+export async function burnToken(address, name, SerialNum, description, img) {
+	const aptosClient = getAptosClient();
+	const tokenClient = new TokenClient(getAptosClient());
+	const adminAccount = new AptosAccount(admin_pk);
+	await aptosClient.waitForTransaction(
+		await tokenClient.burnByCreator(
+			adminAccount, 	// creator
+			address, 	// ownerAddress
+			name, 		// Collection
+			SerialNum, //token name
+			null, 	// propertyVersion
+			1),	// amt
+			{checkSuccess: true}
+	);
+	console.log("token burned")
 }
 
 export async function sendToken(name, key, SerialNum, dest) {
@@ -131,11 +159,7 @@ export async function startFetchMyQuery(address) {
 	const { errors, data } = await fetchMyQuery(address);
 
 	if (errors) {
-		// handle those errors like a pro
 		console.error(errors);
 	}
-
-	// do something great with this precious data
-	// console.log(data);
 	return data;
 }
